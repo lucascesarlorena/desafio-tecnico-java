@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public class EstoqueApp {
 
@@ -18,13 +19,33 @@ public class EstoqueApp {
 
         ControleDeEstoque controle = new ControleDeEstoque(registro.estoque());
 
-        int quantidadeFinal = controle.lancar(101, TipoMovimentacao.ENTRADA, "Compra de 20 unidades", 20);
-        System.out.println("Quantidade final do produto 101: " + quantidadeFinal);
+        for (Produto produto : registro.estoque()) {
+            System.out.println("Produto: " + produto.getDescricaoProduto() + " - Código: " + produto.getCodigoProduto() + " - Estoque: " + produto.getEstoque());
+        }
+        Scanner scanner = new Scanner(System.in);
 
-        int quantidadeFinal2 = controle.lancar(102, TipoMovimentacao.SAIDA, "Venda de 5 unidades", 10);
-        System.out.println("Quantidade final do produto 102: " + quantidadeFinal2);
+        System.out.println("Digite o código do produto:");
+        int codigoProduto = Integer.parseInt(scanner.nextLine());
 
-        int quantidadeFinal3 = controle.lancar(102, TipoMovimentacao.SAIDA, "Venda de 1000 unidades", 1000);
-        System.out.println("Quantidade final do produto 102: " + quantidadeFinal3);
+        System.out.println("Digite o tipo de movimentação (ENTRADA ou SAIDA):");
+        String tipoMovimentacaoStr = scanner.nextLine().toUpperCase();
+
+        System.out.println("Digite a descrição da movimentação:");
+        String descricao = scanner.nextLine();
+
+        System.out.println("Digite a quantidade:");
+        int quantidade = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Processando movimentação...");
+        System.out.println("Código: " + codigoProduto);
+        System.out.println("Tipo: " + tipoMovimentacaoStr);
+        System.out.println("Descrição: " + descricao);
+        System.out.println("Quantidade: " + quantidade);
+
+        TipoMovimentacao tipo = TipoMovimentacao.valueOf(tipoMovimentacaoStr);
+        int quantidadeFinal = controle.lancar(codigoProduto, tipo, descricao, quantidade);
+        System.out.println("Quantidade final do produto " + codigoProduto + ": " + quantidadeFinal);
+
+
     }
 }
