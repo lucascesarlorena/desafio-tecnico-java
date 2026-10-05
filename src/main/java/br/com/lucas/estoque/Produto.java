@@ -30,4 +30,15 @@ public class Produto {
     public void setEstoque(int estoque) {
         this.estoque = estoque;
     }
+
+    public void darEntrada(int quantidade) {
+        this.estoque += quantidade;
+    }
+
+    public void darSaida(int quantidade) {
+        if (quantidade > this.estoque){
+            throw new IllegalArgumentException("Não é possível dar saída de " + quantidade + " unidades do produto " + this.descricaoProduto + ". Estoque atual: " + this.estoque);
+        }
+        this.estoque -= quantidade;
+    }
 }
