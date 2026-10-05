@@ -6,7 +6,6 @@ public class Produto {
     private String descricaoProduto;
     private int estoque;
 
-
     public int getCodigoProduto() {
         return codigoProduto;
     }

@@ -23,7 +23,6 @@ public class ControleDeEstoque {
 
     public int lancar(int codigoProduto, TipoMovimentacao tipo, String descricao, int quantidade) {
         Produto produto = buscarProduto(codigoProduto);
-
         Movimentacao movimentacao = new Movimentacao(proximoId, codigoProduto ,tipo, descricao, quantidade);
 
         if(tipo == TipoMovimentacao.ENTRADA) {
