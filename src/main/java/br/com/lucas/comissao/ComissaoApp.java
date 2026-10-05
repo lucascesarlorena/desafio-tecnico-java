@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.HashMap;
+
+import java.math.RoundingMode;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ComissaoApp {
@@ -19,7 +21,7 @@ public class ComissaoApp {
 
         System.out.println(registro.vendas().size());
 
-        Map<String, BigDecimal> comissoesPorVendedor = new HashMap<>();
+        Map<String, BigDecimal> comissoesPorVendedor = new LinkedHashMap<>();
 
         for(Venda venda : registro.vendas()) {
 
@@ -32,6 +34,10 @@ public class ComissaoApp {
             comissoesPorVendedor.put(venda.vendedor(), novoTotal);
 
         }
-        System.out.println(comissoesPorVendedor);
+        for (String vendedor : comissoesPorVendedor.keySet()){
+            BigDecimal total = comissoesPorVendedor.get(vendedor).setScale(2, RoundingMode.HALF_UP);
+            System.out.println("Vendedor: " + vendedor + ", Comissão total: " + total);
+        }
+
     }
 }
