@@ -16,16 +16,15 @@ public class EstoqueApp {
 
         System.out.println(registro.estoque().size() + " produtos no estoque");
 
-        Produto caneta = registro.estoque().get(0);
-        System.out.println("Descrição: " + caneta.getDescricaoProduto() + ", Estoque: " + caneta.getEstoque());
+        ControleDeEstoque controle = new ControleDeEstoque(registro.estoque());
 
-        caneta.darEntrada(20);
-        System.out.println("Depois da entrada de 20: " + caneta.getEstoque());
+        int quantidadeFinal = controle.lancar(101, TipoMovimentacao.ENTRADA, "Compra de 20 unidades", 20);
+        System.out.println("Quantidade final do produto 101: " + quantidadeFinal);
 
-        caneta.darEntrada(50);
-        System.out.println("Depois da entrada de 50: " + caneta.getEstoque());
+        int quantidadeFinal2 = controle.lancar(102, TipoMovimentacao.SAIDA, "Venda de 5 unidades", 10);
+        System.out.println("Quantidade final do produto 102: " + quantidadeFinal2);
 
-        caneta.darSaida(1000);
-        System.out.println("Depois da saída de 1000: " + caneta.getEstoque());
+        int quantidadeFinal3 = controle.lancar(102, TipoMovimentacao.SAIDA, "Venda de 1000 unidades", 1000);
+        System.out.println("Quantidade final do produto 102: " + quantidadeFinal3);
     }
 }
