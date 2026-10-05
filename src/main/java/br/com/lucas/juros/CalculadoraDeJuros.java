@@ -9,6 +9,8 @@ public class CalculadoraDeJuros {
     public static BigDecimal calcularJuros(BigDecimal valorInicial, LocalDate dataDeVencimento, LocalDate dataDeHoje){
         long diasDeAtraso = java.time.temporal.ChronoUnit.DAYS.between(dataDeVencimento, dataDeHoje);
 
+
+
         if(diasDeAtraso <= 0){
             return BigDecimal.ZERO;
         } else {
