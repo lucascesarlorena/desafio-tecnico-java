@@ -18,36 +18,44 @@ public class EstoqueApp {
         System.out.println(registro.estoque().size() + " produtos no estoque");
         ControleDeEstoque controle = new ControleDeEstoque(registro.estoque());
 
-        for (Produto produto : registro.estoque()) {
-            System.out.println("Produto: " + produto.getDescricaoProduto() + " - Código: " + produto.getCodigoProduto() + " - Estoque: " + produto.getEstoque());
-        }
         Scanner scanner = new Scanner(System.in);
-        try {
-            System.out.println("Digite o código do produto:");
-            int codigoProduto = Integer.parseInt(scanner.nextLine());
+        String continuar;
 
-            System.out.println("Digite o tipo de movimentação (ENTRADA ou SAIDA):");
-            String tipoMovimentacaoStr = scanner.nextLine().toUpperCase();
+        do {
+            try {
+                for (Produto produto : registro.estoque()) {
+                    System.out.println("Produto: " + produto.getDescricaoProduto() + " - Código: " + produto.getCodigoProduto() + " - Estoque: " + produto.getEstoque());
+                }
+                System.out.println("Digite o código do produto:");
+                int codigoProduto = Integer.parseInt(scanner.nextLine());
 
-            System.out.println("Digite a descrição da movimentação:");
-            String descricao = scanner.nextLine();
+                System.out.println("Digite o tipo de movimentação (ENTRADA ou SAIDA):");
+                String tipoMovimentacaoStr = scanner.nextLine().toUpperCase();
 
-            System.out.println("Digite a quantidade:");
-            int quantidade = Integer.parseInt(scanner.nextLine());
+                System.out.println("Digite a descrição da movimentação:");
+                String descricao = scanner.nextLine();
 
-            if(!tipoMovimentacaoStr.equals("ENTRADA") && !tipoMovimentacaoStr.equals("SAIDA")) {
-                throw new IllegalArgumentException("Tipo de movimentação inválido. Use 'ENTRADA' ou 'SAIDA'.");
+                System.out.println("Digite a quantidade:");
+                int quantidade = Integer.parseInt(scanner.nextLine());
+
+                if(!tipoMovimentacaoStr.equals("ENTRADA") && !tipoMovimentacaoStr.equals("SAIDA")) {
+                    throw new IllegalArgumentException("Tipo de movimentação inválido. Use 'ENTRADA' ou 'SAIDA'.");
+                }
+
+                TipoMovimentacao tipo = TipoMovimentacao.valueOf(tipoMovimentacaoStr);
+                int quantidadeFinal = controle.lancar(codigoProduto, tipo, descricao, quantidade);
+                System.out.println("Quantidade final do produto " + codigoProduto + ": " + quantidadeFinal);
+
+            } catch (NumberFormatException e) {
+                System.err.println("Entrada inválida: o código e a quantidade devem ser números inteiros.");
+
+            } catch (IllegalArgumentException e) {
+                System.err.println("Não foi possível lançar a movimentação: " + e.getMessage());
             }
 
-            TipoMovimentacao tipo = TipoMovimentacao.valueOf(tipoMovimentacaoStr);
-            int quantidadeFinal = controle.lancar(codigoProduto, tipo, descricao, quantidade);
-            System.out.println("Quantidade final do produto " + codigoProduto + ": " + quantidadeFinal);
+            System.out.println("Deseja lançar outra movimentação? (S/N)");
+            continuar = scanner.nextLine().trim().toUpperCase();
 
-        } catch (NumberFormatException e) {
-            System.err.println("Erro ao processar a entrada: " + e.getMessage());
-
-        } catch (IllegalArgumentException e) {
-            System.err.println("Não foi possível lançar a movimentação: " + e.getMessage());
-        }
+        }while (continuar.equals("S"));
     }
 }
